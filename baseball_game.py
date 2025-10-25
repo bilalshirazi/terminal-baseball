@@ -136,17 +136,19 @@ class BaseballGame:
         table.add_column("Score", justify="center", style="yellow", width=8)
 
         # Highlight current batting team
-        away_style = "bold green" if self.state.top_of_inning else ""
-        home_style = "bold green" if not self.state.top_of_inning else ""
+        if self.state.top_of_inning:
+            away_name = f"[bold green]{self.player_name}[/bold green]"
+            away_score = f"[bold green]{self.state.away_score}[/bold green]"
+            home_name = self.computer_name
+            home_score = str(self.state.home_score)
+        else:
+            away_name = self.player_name
+            away_score = str(self.state.away_score)
+            home_name = f"[bold green]{self.computer_name}[/bold green]"
+            home_score = f"[bold green]{self.state.home_score}[/bold green]"
 
-        table.add_row(
-            f"[{away_style}]{self.player_name}[/{away_style}]",
-            f"[{away_style}]{self.state.away_score}[/{away_style}]"
-        )
-        table.add_row(
-            f"[{home_style}]{self.computer_name}[/{home_style}]",
-            f"[{home_style}]{self.state.home_score}[/{home_style}]"
-        )
+        table.add_row(away_name, away_score)
+        table.add_row(home_name, home_score)
 
         return table
 
